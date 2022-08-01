@@ -1,7 +1,7 @@
 use actix_web::{get, post, HttpResponse, Responder};
 
 #[get("/subject")]
-pub async fn today_subject() -> impl Responder {
+pub async fn get() -> impl Responder {
     HttpResponse::Ok()
         .body("삼행시")
 }

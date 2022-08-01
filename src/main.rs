@@ -6,7 +6,7 @@ use actix_web::{App, HttpServer};
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
-            .service(subject::today_subject)
+            .service(subject::get)
             .service(subject::set)
     })
         .bind("127.0.0.1:8080")?
