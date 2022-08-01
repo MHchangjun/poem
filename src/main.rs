@@ -1,4 +1,4 @@
-mod poem;
+mod subject;
 
 use actix_web::{App, HttpServer};
 
@@ -6,7 +6,7 @@ use actix_web::{App, HttpServer};
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
-            .service(poem::today_subject)
+            .service(subject::today_subject)
     })
         .bind("127.0.0.1:8080")?
         .run()
