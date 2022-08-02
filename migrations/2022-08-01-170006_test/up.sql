@@ -1,5 +1,5 @@
 -- Your SQL goes here
 CREATE TABLE subjects (
-  id INT PRIMARY KEY,
+  id VARCHAR NOT NULL PRIMARY KEY,
   subject VARCHAR NOT NULL
 )
