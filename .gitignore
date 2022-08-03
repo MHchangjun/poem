@@ -1,2 +1,4 @@
 /target
 /_test.db
+/.env
+/.idea/
