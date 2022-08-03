@@ -1,9 +1,11 @@
+use std::ptr::null;
 use diesel::prelude::*;
 use actix_web::{web, get, post, HttpResponse, Responder};
+use actix_web::cookie::time::format_description::FormatItem::Optional;
 
 use crate::DbPool;
-
 use crate::models;
+use chrono::{NaiveDate, NaiveDateTime};
 
 type DbError = Box<dyn std::error::Error + Send + Sync>;
 
@@ -15,13 +17,17 @@ pub async fn get() -> impl Responder {
 
 pub fn insert_subject(
     _subject: &str,
+    _dt: &str,
     conn: &SqliteConnection
 ) -> Result<models::Subject, DbError> {
     use crate::schema::subjects::dsl::*;
 
+    let _dt = NaiveDateTime::parse_from_str(_dt, "%Y-%m-%d").ok();
+
     let new_subject = models::Subject {
-        id: "test".to_owned(),
+        id: "123".to_owned(),
         subject: _subject.to_owned(),
+        dt: _dt
     };
 
     diesel::insert_into(subjects)
@@ -32,10 +38,10 @@ pub fn insert_subject(
 }
 
 #[post("/subject")]
-pub async fn set(pool: web::Data<DbPool>, subject: String) -> impl Responder {
+pub async fn set(pool: web::Data<DbPool>, from: web::Json<models::NewSubject>) -> impl Responder {
     let subject = web::block(move || {
         let conn = pool.get()?;
-        insert_subject(&subject, &conn)
+        insert_subject(&from.subject, &from.dt, &conn)
     })
         .await;
 
