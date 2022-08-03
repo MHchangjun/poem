@@ -1,11 +1,9 @@
-use std::ptr::null;
 use diesel::prelude::*;
 use actix_web::{web, get, post, HttpResponse, Responder};
-use actix_web::cookie::time::format_description::FormatItem::Optional;
 
 use crate::DbPool;
 use crate::models;
-use chrono::{NaiveDate, NaiveDateTime};
+use chrono::{NaiveDateTime};
 
 type DbError = Box<dyn std::error::Error + Send + Sync>;
 
