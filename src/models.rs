@@ -4,9 +4,18 @@
 #![allow(clippy::all)]
 
 use crate::schema::subjects;
+use chrono::NaiveDateTime;
+use serde::{Deserialize, Serialize};
 
 #[derive(Queryable, Insertable, Debug)]
 pub struct Subject {
     pub id: String,
     pub subject: String,
+    pub dt: Option<NaiveDateTime>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct NewSubject {
+    pub subject: String,
+    pub dt: String,
 }
