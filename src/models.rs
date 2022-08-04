@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 pub struct Subject {
     pub id: String,
     pub subject: String,
-    pub dt: Option<NaiveDateTime>,
+    pub dt: NaiveDateTime,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

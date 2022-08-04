@@ -3,7 +3,8 @@ use actix_web::{web, get, post, HttpResponse, Responder};
 
 use crate::DbPool;
 use crate::models;
-use chrono::{NaiveDateTime};
+use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
+use uuid::Uuid;
 
 type DbError = Box<dyn std::error::Error + Send + Sync>;
 
@@ -15,15 +16,26 @@ pub async fn get() -> impl Responder {
 
 pub fn insert_subject(
     _subject: &str,
-    _dt: &str,
+    _date: &str,
     conn: &SqliteConnection
 ) -> Result<models::Subject, DbError> {
     use crate::schema::subjects::dsl::*;
 
-    let _dt = NaiveDateTime::parse_from_str(_dt, "%Y-%m-%d").ok();
+    let _date = NaiveDate::parse_from_str(_date, "%Y-%m-%d");
+    match _date {
+        Ok(_) => {}
+        Err(error) => {
+            println!("error: {}", error);
+        }
+    }
+
+    let _dt = NaiveDateTime::new(
+        _date.ok().expect(""),
+        NaiveTime::from_hms(0, 0, 0)
+    );
 
     let new_subject = models::Subject {
-        id: "123".to_owned(),
+        id: Uuid::new_v4().to_string(),
         subject: _subject.to_owned(),
         dt: _dt
     };
