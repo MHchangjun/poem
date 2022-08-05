@@ -1,7 +1,7 @@
 table! {
-    poem (id) {
+    poems (id) {
         id -> Text,
-        subjectId -> Text,
+        subject_id -> Text,
         body -> Text,
         like -> Integer,
     }
@@ -16,6 +16,6 @@ table! {
 }
 
 allow_tables_to_appear_in_same_query!(
-    poem,
+    poems,
     subjects,
 );
