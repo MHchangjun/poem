@@ -11,7 +11,7 @@ type DbError = Box<dyn std::error::Error + Send + Sync>;
 pub fn select_subject(
     date: &str,
     conn: &SqliteConnection
-) -> Result<String, DbError> {
+) -> Result<models::Subject, DbError> {
     use crate::schema::subjects::dsl::*;
 
     let date = NaiveDate::parse_from_str(date, "%Y-%m-%d").ok().expect("");
@@ -22,8 +22,7 @@ pub fn select_subject(
     );
 
     let _subject = subjects.filter(dt.eq(_dt))
-        .select(subject)
-        .first::<String>(conn)
+        .first::<models::Subject>(conn)
         .expect("");
 
     Ok(_subject)
@@ -40,7 +39,7 @@ pub async fn get(pool: web::Data<DbPool>, from: web::Path<String>) -> Result<Htt
         .await?
         .map_err(actix_web::error::ErrorInternalServerError)?;
 
-    Ok(HttpResponse::Ok().body(subject))
+    Ok(HttpResponse::Ok().json(subject.to_response()))
 }
 
 pub fn insert_subject(

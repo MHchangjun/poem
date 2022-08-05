@@ -14,6 +14,21 @@ pub struct Subject {
     pub dt: NaiveDateTime,
 }
 
+impl Subject {
+    pub fn to_response(self) -> SubjectResponse {
+        SubjectResponse {
+            id: self.id,
+            subject: self.subject
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct SubjectResponse {
+    pub id: String,
+    pub subject: String,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct NewSubject {
     pub subject: String,
