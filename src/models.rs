@@ -7,7 +7,7 @@ use crate::schema::subjects;
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 
-#[derive(Queryable, Insertable, Debug)]
+#[derive(Queryable, Insertable, Debug, PartialEq)]
 pub struct Subject {
     pub id: String,
     pub subject: String,
