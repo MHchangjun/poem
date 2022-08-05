@@ -1,5 +1,5 @@
 use diesel::prelude::*;
-use actix_web::{web, get, post, HttpResponse, Responder};
+use actix_web::{web, get, post, HttpResponse, Responder, Error};
 
 use crate::DbPool;
 use crate::models;
@@ -8,10 +8,39 @@ use uuid::Uuid;
 
 type DbError = Box<dyn std::error::Error + Send + Sync>;
 
-#[get("/subject")]
-pub async fn get() -> impl Responder {
-    HttpResponse::Ok()
-        .body("삼행시")
+pub fn select_subject(
+    date: &str,
+    conn: &SqliteConnection
+) -> Result<String, DbError> {
+    use crate::schema::subjects::dsl::*;
+
+    let date = NaiveDate::parse_from_str(date, "%Y-%m-%d").ok().expect("");
+
+    let _dt = NaiveDateTime::new(
+        date,
+        NaiveTime::from_hms(0, 0, 0)
+    );
+
+    let _subject = subjects.filter(dt.eq(_dt))
+        .select(subject)
+        .first::<String>(conn)
+        .expect("");
+
+    Ok(_subject)
+}
+
+#[get("/subject/{date}")]
+pub async fn get(pool: web::Data<DbPool>, from: web::Path<String>) -> Result<HttpResponse, Error> {
+    let date = from.into_inner();
+
+    let subject = web::block(move || {
+        let conn = pool.get()?;
+        select_subject(&date, &conn)
+    })
+        .await?
+        .map_err(actix_web::error::ErrorInternalServerError)?;
+
+    Ok(HttpResponse::Ok().body(subject))
 }
 
 pub fn insert_subject(
