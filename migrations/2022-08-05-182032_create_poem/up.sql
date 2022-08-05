@@ -1,8 +1,8 @@
 -- Your SQL goes here
 
-CREATE TABLE poem (
+CREATE TABLE poems (
     id VARCHAR NOT NULL PRIMARY KEY,
-    subjectId VARCHAR NOT NULL,
+    subject_id VARCHAR NOT NULL,
     body VARCHAR NOT NULL,
     like INTEGER NOT NULL DEFAULT 0
 );
