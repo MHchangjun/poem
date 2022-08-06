@@ -1,4 +1,5 @@
 mod subject;
+mod poem;
 mod db_error;
 
 #[macro_use]
