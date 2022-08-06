@@ -2,14 +2,10 @@ use diesel::prelude::*;
 use actix_web::{web, get, post, HttpResponse, Responder, Error};
 
 use crate::DbPool;
-use crate::models;
 use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
 use uuid::Uuid;
 use crate::db::db_error::DbError;
 use crate::db::models;
-use super::db;
-
-use super::db_error::DbError;
 
 pub fn select_subject(
     date: &str,

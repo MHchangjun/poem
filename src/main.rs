@@ -1,4 +1,6 @@
 mod subject;
+mod db;
+mod api;
 
 #[macro_use]
 extern crate diesel;
@@ -7,8 +9,8 @@ use std::env;
 use actix_web::{App, HttpServer, web};
 use diesel::r2d2::ConnectionManager;
 use diesel::{r2d2, SqliteConnection};
+use crate::api::poem;
 
-mod db;
 
 type DbPool = r2d2::Pool<ConnectionManager<SqliteConnection>>;
 
@@ -27,6 +29,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(pool.clone()))
             .service(subject::get)
             .service(subject::set)
+            .service(poem::add_poem)
     })
         .bind("127.0.0.1:8080")?
         .run()
