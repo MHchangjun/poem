@@ -1,4 +1,5 @@
 mod subject;
+mod db_error;
 
 #[macro_use]
 extern crate diesel;
