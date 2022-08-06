@@ -1,6 +1,6 @@
 -- Your SQL goes here
-CREATE TABLE subjects (
+CREATE TABLE IF NOT EXISTS subjects (
   id VARCHAR NOT NULL PRIMARY KEY,
   subject VARCHAR NOT NULL,
   dt DATETIME NOT NULL
-)
+);
