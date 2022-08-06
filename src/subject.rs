@@ -6,7 +6,7 @@ use crate::models;
 use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
 use uuid::Uuid;
 
-type DbError = Box<dyn std::error::Error + Send + Sync>;
+use super::db_error::DbError;
 
 pub fn select_subject(
     date: &str,
