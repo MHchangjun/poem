@@ -1,17 +1,14 @@
 mod subject;
-mod poem;
-mod db_error;
 
 #[macro_use]
 extern crate diesel;
 
 use std::env;
-use actix_web::{web, App, HttpServer};
+use actix_web::{App, HttpServer, web};
 use diesel::r2d2::ConnectionManager;
 use diesel::{r2d2, SqliteConnection};
 
-mod models;
-mod schema;
+mod db;
 
 type DbPool = r2d2::Pool<ConnectionManager<SqliteConnection>>;
 

@@ -5,6 +5,9 @@ use crate::DbPool;
 use crate::models;
 use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
 use uuid::Uuid;
+use crate::db::db_error::DbError;
+use crate::db::models;
+use super::db;
 
 use super::db_error::DbError;
 
@@ -12,7 +15,7 @@ pub fn select_subject(
     date: &str,
     conn: &SqliteConnection
 ) -> Result<models::Subject, DbError> {
-    use crate::schema::subjects::dsl::*;
+    use crate::db::schema::subjects::dsl::*;
 
     let date = NaiveDate::parse_from_str(date, "%Y-%m-%d").ok().expect("");
 
@@ -47,7 +50,7 @@ pub fn insert_subject(
     _date: &str,
     conn: &SqliteConnection
 ) -> Result<models::Subject, DbError> {
-    use crate::schema::subjects::dsl::*;
+    use crate::db::schema::subjects::dsl::*;
 
     let _date = NaiveDate::parse_from_str(_date, "%Y-%m-%d");
     match _date {

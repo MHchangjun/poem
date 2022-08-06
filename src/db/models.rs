@@ -3,7 +3,7 @@
 #![allow(unused)]
 #![allow(clippy::all)]
 
-use crate::schema::subjects;
+use crate::db::schema::subjects;
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 

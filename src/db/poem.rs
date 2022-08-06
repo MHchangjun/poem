@@ -17,7 +17,7 @@ pub struct Poem {
 
 impl Poem {
     pub fn insert(new_poem: &NewPoem, conn: &SqliteConnection) -> Result<Poem, DbError> {
-        use crate::schema::poems::dsl::*;
+        use crate::db::schema::poems::dsl::*;
 
         let new_poem = new_poem.to_entity();
 
