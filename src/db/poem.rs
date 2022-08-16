@@ -41,4 +41,14 @@ impl Poem {
 
         Ok(poem)
     }
+
+    pub fn like(_id: &String, conn: &SqliteConnection) -> Result<(), DbError> {
+        use crate::db::schema::poems::dsl::*;
+
+        diesel::update(poems.filter(id.eq(_id)))
+            .set(like.eq(like + 1))
+            .execute(conn)?;
+
+        Ok(())
+    }
 }
