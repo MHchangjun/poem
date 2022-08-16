@@ -37,6 +37,20 @@ pub async fn get_poem(pool: web::Data<DbPool>, from: web::Path<String>) -> Resul
     Ok(HttpResponse::Ok().json(poem))
 }
 
+#[post("/poem/like/{poem_id}")]
+pub async fn like_poem(pool: web::Data<DbPool>, from: web::Path<String>) -> Result<HttpResponse, Error> {
+    let poem_id = from.into_inner();
+
+    web::block(move || {
+        let conn = pool.get()?;
+        Poem::like(&poem_id, &conn)
+    })
+        .await?
+        .map_err(actix_web::error::ErrorInternalServerError)?;
+
+    Ok(HttpResponse::Ok().finish())
+}
+
 #[derive(Debug, Deserialize)]
 pub struct NewPoem {
     pub subject_id: String,
