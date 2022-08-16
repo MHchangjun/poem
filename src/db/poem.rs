@@ -2,14 +2,13 @@
 
 use diesel::prelude::*;
 
-use uuid::Uuid;
-use serde::{Serialize, Deserialize};
+use crate::api::poem::NewPoem;
 
 use super::db_error::DbError;
 
 use super::schema::poems;
 
-#[derive(Queryable, Debug, Insertable, Serialize, PartialEq)]
+#[derive(Queryable, Debug, Insertable, PartialEq)]
 pub struct Poem {
     pub id: String,
     pub subject_id: String,
@@ -30,7 +29,7 @@ impl Poem {
         Ok(new_poem.id)
     }
 
-    pub fn get(_subject_id: String, conn: &SqliteConnection) -> Result<Vec<Poem>, DbError> {
+    pub fn get(_subject_id: &String, conn: &SqliteConnection) -> Result<Vec<Poem>, DbError> {
         use crate::db::schema::poems::dsl::*;
 
         let poem = match poems
@@ -41,22 +40,5 @@ impl Poem {
             };
 
         Ok(poem)
-    }
-}
-
-#[derive(Debug, Deserialize)]
-pub struct NewPoem {
-    pub subject_id: String,
-    pub body: Vec<String>,
-}
-
-impl NewPoem {
-    pub fn to_entity(&self) -> Poem {
-        Poem {
-            id: Uuid::new_v4().to_string(),
-            subject_id: self.subject_id.to_owned(),
-            body: serde_json::to_string(&self.body.to_owned()).expect("not json array type"),
-            like: 0
-        }
     }
 }

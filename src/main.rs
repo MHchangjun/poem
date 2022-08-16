@@ -30,6 +30,7 @@ async fn main() -> std::io::Result<()> {
             .service(subject::get)
             .service(subject::set)
             .service(poem::add_poem)
+            .service(poem::get_poem)
     })
         .bind("127.0.0.1:8080")?
         .run()
